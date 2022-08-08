@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: deployment-temperatura
+spec: 
+  replicas: 6
+  selector: 
+    matchLabels: 
+      app: app-temperatura  
+  template: 
+    metadata: 
+      labels: 
+        app: app-temperatura 
+    spec: 
+      containers:
+        - name: app-temperatura 
+          image: adilsonyoutube2022/conversao-temperatura:v1
+          ports:
+            - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: service-web
+spec: 
+  selector: 
+    app: app-temperatura 
+  ports: 
+  - protocol: TCP
+    port: 80
+    nodePort: 30000
+  type: NodePort
